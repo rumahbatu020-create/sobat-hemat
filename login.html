@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Sobat Hemat - Login</title>
+  <meta name="theme-color" content="#6c4af2">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <script src="theme.js"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#6c4af2",
+            "background-light": "#f6f6f8",
+            "background-dark": "#0a0a0a",
+            "surface-dark": "#16161a",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+          },
+          borderRadius: { "DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen antialiased">
+  <script src="auth.js"></script>
+  <script>
+    if (window.__auth && window.__auth.isLoggedIn()) {
+      const params = new URLSearchParams(location.search);
+      const next = params.get("next") || "index.html";
+      location.replace(next);
+    }
+  </script>
+
+  <div class="min-h-screen flex items-center justify-center px-6">
+    <div class="w-full max-w-sm bg-surface-dark/80 border border-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-2xl">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="h-10 w-10 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary">insights</span>
+        </div>
+        <div>
+          <p class="text-xs text-slate-400 font-medium tracking-wide">Welcome to</p>
+          <h1 class="text-lg font-bold text-white leading-none">Sobat Hemat</h1>
+        </div>
+      </div>
+
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-2">Username</label>
+          <input id="username" class="w-full rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 focus:border-primary/50 focus:ring-primary/20" placeholder="Masukkan username" required />
+        </div>
+        <div>
+          <label class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-2">Password</label>
+          <input id="password" type="password" class="w-full rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-slate-600 focus:border-primary/50 focus:ring-primary/20" placeholder="Masukkan password" required />
+        </div>
+
+        <button class="w-full h-12 rounded-full bg-primary hover:bg-primary/90 text-white font-bold shadow-[0_8px_20px_rgba(108,74,242,0.3)] transition-all active:scale-[0.98]" type="submit">
+          Login
+        </button>
+
+        <p class="text-[11px] text-slate-500 leading-relaxed">
+          Demo mode: password tidak divalidasi (tanpa backend). Untuk versi real, perlu API/server.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+      if (!username || !password) return;
+
+      window.__auth.login(username);
+      const params = new URLSearchParams(location.search);
+      const next = params.get("next") || "index.html";
+      location.replace(next);
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
+</body>
+</html>
