@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobat Hemat - Beranda</title>
+    <meta name="theme-color" content="#6c4af2">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <script src="theme.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3211d4",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0a0a0a",
+                        "card-dark": "#16161a",
+                        "emerald-glow": "#10b981",
+                        "rose-accent": "#f43f5e"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: max(884px, 100dvh);
+        }
+        .emerald-glow-card {
+            box-shadow: 0 0 25px -10px rgba(16, 185, 129, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen pb-24">
+    <script src="auth.js"></script>
+    <script>
+        window.__requireAuth && window.__requireAuth();
+    </script>
+    <!-- Top Header -->
+    <header class="flex items-center justify-between p-6 pt-8">
+        <div class="flex items-center gap-3">
+            <div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUQ5AQaC62Z-s6zL7MFqMyjSY7Xw_KBxV2j4D-3dWsjkOas2vZ-mFVYFuJxk_O55oZIoaUO-iiwAxKkojp4Q0p6g7-VIN-6uKhw7rxontEyyeZp0cOVvTs6bPmNnQoCoWFxvSMN_fwFb-9fPLCLT3yk3RnIgWomA-40f_dsXvzSibdE3qbR8FFo6FBEPONIYmVSgEo1PACg0UxMDvtR6YivfhxRpqTcCJ7EtmRljjU6o9qii8VI3vLPSDWTTy5SXwulYYNkI4ZBgK1" alt="Profile" class="size-full rounded-full" data-alt="User profile avatar icon">
+            </div>
+            <div>
+                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Welcome back,</p>
+                <h1 id="welcomeName" class="text-lg font-bold leading-none mt-0.5">User</h1>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button class="relative p-2 rounded-xl bg-card-dark border border-slate-800 text-slate-400 hover:text-white transition-colors" type="button">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute top-2 right-2 size-2 bg-rose-accent rounded-full border-2 border-background-dark"></span>
+            </button>
+            <button class="p-2 rounded-xl bg-card-dark border border-slate-800 text-slate-400 hover:text-white transition-colors" type="button" onclick="window.__logout && window.__logout()" aria-label="Logout">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </header>
+    <!-- Main Balance Card -->
+    <main class="px-6">
+        <div class="relative overflow-hidden emerald-glow-card rounded-2xl bg-gradient-to-br from-[#1a1a1a] to-[#0d0d0d] border border-emerald-glow/20 p-6 mb-6">
+            <div class="absolute -top-12 -right-12 size-40 bg-emerald-glow/10 blur-[60px] rounded-full"></div>
+            <div class="absolute -bottom-8 -left-8 size-32 bg-primary/10 blur-[50px] rounded-full"></div>
+            <div class="flex justify-between items-start mb-4">
+                <p class="text-sm font-medium text-slate-400 uppercase tracking-widest">Ringkasan</p>
+                <span class="material-symbols-outlined text-emerald-glow">insights</span>
+            </div>
+            <div class="flex items-baseline gap-1 mb-8">
+                <span class="text-2xl font-semibold text-slate-500">Rp</span>
+                <h2 id="totalBalance" class="text-4xl font-bold tracking-tight text-white"></h2>
+            </div>
+            <div class="flex items-center justify-between pt-4 border-t border-white/5">
+                <div class="flex items-center gap-2">
+                    <span class="flex items-center justify-center size-6 rounded-full bg-emerald-glow/20 text-emerald-glow">
+                        <span class="material-symbols-outlined text-xs">trending_up</span>
+                    </span>
+                    <p class="text-xs font-medium text-emerald-glow">+12.5% <span class="text-slate-500 font-normal">this month</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- Mini Analytics Grid -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="p-4 rounded-xl bg-card-dark border border-slate-800/50 flex flex-col gap-3">
+                <div class="size-8 rounded-lg bg-emerald-glow/10 flex items-center justify-center text-emerald-glow">
+                    <span class="material-symbols-outlined text-[20px]">south_west</span>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">Pemasukan Bulan Ini</p>
+                    <p id="monthIncome" class="text-lg font-bold text-white"></p>
+                </div>
+            </div>
+            <div class="p-4 rounded-xl bg-card-dark border border-slate-800/50 flex flex-col gap-3">
+                <div class="size-8 rounded-lg bg-rose-accent/10 flex items-center justify-center text-rose-accent">
+                    <span class="material-symbols-outlined text-[20px]">north_east</span>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">Pengeluaran Bulan Ini</p>
+                    <p id="monthExpense" class="text-lg font-bold text-white"></p>
+                </div>
+            </div>
+        </div>
+        <!-- Recent Transactions -->
+        <section class="mb-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold text-white">Recent Transactions</h3>
+            </div>
+            <div id="recentTransactions" class="space-y-3"></div>
+        </section>
+    </main>
+    <!-- FAB -->
+    <a href="add-transaction.html" class="fixed bottom-24 right-6 size-14 rounded-full bg-primary text-white shadow-lg shadow-primary/40 flex items-center justify-center transition-transform active:scale-90 z-20" aria-label="Add transaction">
+        <span class="material-symbols-outlined text-3xl">add</span>
+    </a>
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#0d0d12]/95 backdrop-blur-lg border-t border-slate-800/50 px-6 py-4 flex items-center justify-between z-10">
+        <a href="index.html" class="flex flex-col items-center gap-1 text-primary">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Home</span>
+        </a>
+        <a href="reports.html" class="flex flex-col items-center gap-1 text-slate-500">
+            <span class="material-symbols-outlined">pie_chart</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Analytics</span>
+        </a>
+        <a href="budget.html" class="flex flex-col items-center gap-1 text-slate-500">
+            <span class="material-symbols-outlined">pie_chart</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Budget</span>
+        </a>
+        <a href="profile.html" class="flex flex-col items-center gap-1 text-slate-500">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Profile</span>
+        </a>
+    </nav>
+    <!-- iOS Indicator Bar Spacer -->
+    <div class="fixed bottom-0 left-0 right-0 h-8 bg-transparent pointer-events-none"></div>
+    <script>
+        (function () {
+            const TRANSACTIONS_KEY = "sobatHematTransactions";
+
+            function formatRupiah(num) {
+                const n = Math.max(0, Number(num) || 0);
+                return "Rp " + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+
+            function formatDateLabel(isoDate) {
+                const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+                const d = new Date(String(isoDate || "") + "T00:00:00");
+                if (Number.isNaN(d.getTime())) return "";
+                return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+            }
+
+            function getSessionName() {
+                if (!window.__auth || !window.__auth.getSession) return "User";
+                const s = window.__auth.getSession();
+                return (s && s.username) ? s.username : "User";
+            }
+
+            function readTransactions() {
+                try {
+                    const raw = localStorage.getItem(TRANSACTIONS_KEY);
+                    if (!raw) return [];
+                    const parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch {
+                    return [];
+                }
+            }
+
+            function getCategoryIcon(category) {
+                const map = {
+                    "Makan": "restaurant",
+                    "Transport": "directions_bus",
+                    "Gaji": "work",
+                    "Shop": "shopping_bag",
+                    "Sehat": "favorite",
+                    "Hobi": "sports_esports",
+                    "Pulsa": "smartphone",
+                    "Rumah": "home",
+                };
+                return map[String(category || "")] || "payments";
+            }
+
+            function isSameMonth(d, year, monthIndex) {
+                return d.getFullYear() === year && d.getMonth() === monthIndex;
+            }
+
+            function parseTxDate(tx) {
+                const d = new Date(String(tx && tx.date ? tx.date : "") + "T00:00:00");
+                return Number.isNaN(d.getTime()) ? null : d;
+            }
+
+            const welcomeEl = document.getElementById("welcomeName");
+            if (welcomeEl) welcomeEl.textContent = getSessionName();
+
+            const totalBalanceEl = document.getElementById("totalBalance");
+            const monthIncomeEl = document.getElementById("monthIncome");
+            const monthExpenseEl = document.getElementById("monthExpense");
+            const recentEl = document.getElementById("recentTransactions");
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+
+            const txs = readTransactions();
+            let balance = 0;
+            let monthIncome = 0;
+            let monthExpense = 0;
+
+            for (const tx of txs) {
+                const amount = Math.max(0, Number(tx && tx.amount) || 0);
+                const type = String(tx && tx.type ? tx.type : "");
+                const d = parseTxDate(tx);
+                const inMonth = d ? isSameMonth(d, year, month) : false;
+
+                if (type === "Pemasukan") {
+                    balance += amount;
+                    if (inMonth) monthIncome += amount;
+                } else {
+                    balance -= amount;
+                    if (inMonth) monthExpense += amount;
+                }
+            }
+
+            if (!txs.length) {
+                if (totalBalanceEl) totalBalanceEl.textContent = "";
+                if (monthIncomeEl) monthIncomeEl.textContent = "";
+                if (monthExpenseEl) monthExpenseEl.textContent = "";
+            } else {
+                if (totalBalanceEl) {
+                    const sign = balance < 0 ? "-" : "";
+                    totalBalanceEl.textContent = sign + formatRupiah(Math.abs(balance)).replace(/^Rp\s*/, "");
+                }
+                if (monthIncomeEl) monthIncomeEl.textContent = "+" + formatRupiah(monthIncome);
+                if (monthExpenseEl) monthExpenseEl.textContent = "-" + formatRupiah(monthExpense);
+            }
+
+            if (recentEl) {
+                recentEl.innerHTML = "";
+
+                const items = txs.slice(0, 8);
+                if (!items.length) {
+                    const empty = document.createElement("div");
+                    empty.className = "p-4 rounded-xl bg-card-dark/50 border border-slate-800/30 text-slate-400 text-sm";
+                    empty.textContent = "Belum ada transaksi. Klik tombol + untuk menambah.";
+                    recentEl.appendChild(empty);
+                } else {
+                    for (const tx of items) {
+                        const amount = Math.max(0, Number(tx && tx.amount) || 0);
+                        const type = String(tx && tx.type ? tx.type : "Pengeluaran");
+                        const category = String(tx && tx.category ? tx.category : "Transaksi");
+                        const note = String(tx && tx.note ? tx.note : "").trim();
+                        const dateLabel = formatDateLabel(tx && tx.date);
+
+                        const row = document.createElement("div");
+                        row.className = "p-4 rounded-xl bg-card-dark/50 border border-slate-800/30 flex items-center justify-between";
+
+                        const left = document.createElement("div");
+                        left.className = "flex items-center gap-4";
+
+                        const iconWrap = document.createElement("div");
+                        iconWrap.className = type === "Pemasukan"
+                            ? "size-11 rounded-full bg-primary/20 flex items-center justify-center text-primary"
+                            : "size-11 rounded-full bg-slate-800 flex items-center justify-center text-white";
+
+                        const icon = document.createElement("span");
+                        icon.className = "material-symbols-outlined";
+                        icon.style.fontVariationSettings = "'FILL' 1";
+                        icon.textContent = getCategoryIcon(category);
+                        iconWrap.appendChild(icon);
+
+                        const meta = document.createElement("div");
+                        const title = document.createElement("p");
+                        title.className = "font-semibold text-white";
+                        title.textContent = category;
+                        const sub = document.createElement("p");
+                        sub.className = "text-xs text-slate-500";
+                        sub.textContent = note ? `${dateLabel} · ${note}` : dateLabel;
+                        meta.appendChild(title);
+                        meta.appendChild(sub);
+
+                        left.appendChild(iconWrap);
+                        left.appendChild(meta);
+
+                        const right = document.createElement("p");
+                        right.className = "font-bold " + (type === "Pemasukan" ? "text-emerald-glow" : "text-rose-accent");
+                        right.textContent = (type === "Pemasukan" ? "+" : "-") + formatRupiah(amount);
+
+                        row.appendChild(left);
+                        row.appendChild(right);
+                        recentEl.appendChild(row);
+                    }
+                }
+            }
+        })();
+    </script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./service-worker.js");
+            });
+        }
+    </script>
+</body>
+</html>
